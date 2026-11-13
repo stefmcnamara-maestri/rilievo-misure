@@ -1,5 +1,5 @@
 /* Rilievo misure: tiene in memoria solo la pagina d'ingresso e le icone. I dati passano sempre dallo script. */
-const C='ril-c79d286f01', F=['./','index.html','rilievo.html','config.js','manifest.webmanifest','favicon.png','apple-touch-icon.png','icona-192.png','icona-512.png','icona-maskable-512.png'];
+const C='ril-e9b2577ad8', F=['./','index.html','rilievo.html','config.js','manifest.webmanifest','favicon.png','apple-touch-icon.png','icona-192.png','icona-512.png','icona-maskable-512.png'];
 self.addEventListener('install',e=>{ e.waitUntil(caches.open(C).then(c=>c.addAll(F)).then(()=>self.skipWaiting())); });
 self.addEventListener('activate',e=>{ e.waitUntil(caches.keys().then(k=>Promise.all(k.filter(x=>x.startsWith('ril-')&&x!==C).map(x=>caches.delete(x)))).then(()=>self.clients.claim())); });
 self.addEventListener('fetch',e=>{ const u=new URL(e.request.url); if(e.request.method!=='GET'||u.origin!==location.origin) return;
