@@ -1,0 +1,29 @@
+/* Ritocchi per il telefono: caricato SOLO dentro l'app Gestionale (non cambia nulla sul PC) */
+@media (max-width: 760px){
+  html{-webkit-text-size-adjust:100%}
+  body{overscroll-behavior-y:contain}
+  .sitehead{position:sticky;top:0;z-index:50;padding:8px 12px 0 !important;gap:6px 10px !important;display:flex !important;flex-wrap:wrap;align-items:center}
+  .sitehead .brand{flex:1 1 auto;min-width:0}
+  .sitehead .brand .logo{height:30px !important;width:auto}
+  .sitehead .brandsub span{display:none}
+  .sitehead .brandsub b{font-size:13px !important}
+  .sitehead .nav,.sitehead .tabs{order:5;flex:1 0 100%;display:flex !important;flex-wrap:nowrap !important;overflow-x:auto;scrollbar-width:none;gap:2px !important;margin:0 -12px;padding:0 8px;-webkit-overflow-scrolling:touch}
+  .sitehead .nav::-webkit-scrollbar,.sitehead .tabs::-webkit-scrollbar{display:none}
+  .sitehead .nav>a,.sitehead .tabs>.tab{flex:none;white-space:nowrap;font-size:13px !important;padding:10px 10px !important}
+  .sitehead .syncbtn span,.sitehead .gcbtn span{display:none}
+  .sitehead .syncbtn,.sitehead .gcbtn{flex:none;min-width:40px;height:36px;margin-left:4px;align-self:center}
+  .sitehead .sitecta{font-size:12px !important;padding:7px 12px !important;white-space:nowrap}
+  .sitehead .topact{display:flex;gap:6px;flex-wrap:nowrap;align-items:center}
+  .sitehead .topact .btn{font-size:12px !important;padding:7px 10px !important;white-space:nowrap}
+  #bLayoutReset{display:none}
+  #stato{order:4}
+  main,#main,.tabcontent{padding-left:10px !important;padding-right:10px !important}
+  .panel{padding:14px !important;border-radius:14px}
+  .btn,.chip{min-height:36px}
+  input,select,textarea{font-size:16px !important}
+  table{font-size:13px}
+  .tbl{display:block;overflow-x:auto;-webkit-overflow-scrolling:touch}
+  .card .btn,.mcard .btn{font-size:12px !important;white-space:normal;line-height:1.2}
+  .mbox,.svbox{width:calc(100vw - 20px) !important;max-height:calc(100vh - 40px);overflow:auto}
+}
+@media (display-mode: standalone){ .sitehead{padding-top:max(8px, env(safe-area-inset-top)) !important} }
