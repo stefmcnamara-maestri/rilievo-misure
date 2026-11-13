@@ -115,8 +115,24 @@ async function avvia(){
   document.open(); document.write(html); document.close();
   dopo();
 }
+/* invito a installare l'app (solo se aperta nel browser) */
+window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); window.__bip=e; if(window.__mostraInst) window.__mostraInst(); });
+function installa(){ if(matchMedia('(display-mode: standalone)').matches || navigator.standalone) return;
+  try{ if(sessionStorage.getItem('gestInstNo')) return; }catch(e){}
+  var mostra=function(){ var o=document.getElementById('gestInst'); if(o) o.remove(); var d=document.createElement('div'); d.id='gestInst';
+    d.style.cssText='position:fixed;left:10px;right:10px;bottom:calc(10px + env(safe-area-inset-bottom));z-index:99990;background:#1b1b1b;color:#fff;border-radius:14px;padding:12px 14px;display:flex;gap:12px;align-items:center;font:14px/1.35 system-ui,-apple-system,Segoe UI,Roboto,sans-serif;box-shadow:0 8px 24px rgba(0,0,0,.25)';
+    d.innerHTML='<img src="icona-192.png" alt="" style="width:40px;height:40px;border-radius:10px;background:#fff;flex:none"><div style="flex:1"><b>Installa l’app Gestionale</b><br><span style="opacity:.8">'+(window.__bip?'Avrai l’icona sul telefono e si aprirà a schermo intero.':'Dal menu ⋮ di Chrome scegli <b>Installa app</b> (o <b>Aggiungi a schermata Home</b> → Installa).')+'</span></div>'+
+      (window.__bip?'<button id="gestInstSi" style="background:#f39a3b;color:#1b1b1b;border:0;border-radius:10px;padding:10px 14px;font-weight:700;font-size:15px">Installa</button>':'')+'<button id="gestInstX" aria-label="Chiudi" style="background:none;border:0;color:#fff;font-size:22px;padding:4px 6px">×</button>';
+    document.body.appendChild(d);
+    d.querySelector('#gestInstX').onclick=function(){ d.remove(); try{ sessionStorage.setItem('gestInstNo','1'); }catch(e){} };
+    var si=d.querySelector('#gestInstSi'); if(si) si.onclick=function(){ var e=window.__bip; window.__bip=null; e.prompt(); e.userChoice.then(function(){ d.remove(); }); }; };
+  window.__mostraInst=mostra;
+  window.addEventListener('beforeinstallprompt', function(e){ e.preventDefault(); window.__bip=e; mostra(); });
+  window.addEventListener('appinstalled', function(){ var o=document.getElementById('gestInst'); if(o) o.remove(); });
+  setTimeout(mostra, window.__bip?500:5000); }
 /* link interni (dashboard ⇄ preventivatore) nella stessa finestra dell'app */
 function dopo(){
+  installa();
   var interna=function(u){ try{ var x=new URL(u, location.href); return x.origin===location.origin && /\.html$/i.test(x.pathname) ? x : null; }catch(e){ return null; } };
   document.addEventListener('click', function(ev){ var a=ev.target.closest && ev.target.closest('a[target="_blank"]'); if(!a) return; var x=interna(a.getAttribute('href')); if(x){ ev.preventDefault(); location.href=x.href; } }, true);
   var wo=window.open; window.open=function(u,t,f){ var x=u && interna(u); if(x){ location.href=x.href; return window; } return wo.apply(window, arguments); };
